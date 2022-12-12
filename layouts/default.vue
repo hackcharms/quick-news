@@ -81,6 +81,11 @@ export default {
           title: 'Inspire',
           to: '/inspire',
         },
+        {
+          icon: 'mdi-newspaper-variant',
+          title: 'News',
+          to: '/news',
+        },
       ],
       miniVariant: false,
       right: true,

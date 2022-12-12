@@ -5,7 +5,11 @@ export default function ({ $axios,$config, redirect }:Context) {
     // console.log("env",process.env)
     // console.log("this.$config",$config)
     if(config.url?.includes('?')){
+      if(config.url?.endsWith('&')||config.url?.endsWith('?')){
+        config.url=config.url+'apiKey='+$config.API_KEY
+      }else{
         config.url=config.url+'&apiKey='+$config.API_KEY
+      }
     }else{
         config.url=`${config.url}?apiKey=${$config.API_KEY}`
     }

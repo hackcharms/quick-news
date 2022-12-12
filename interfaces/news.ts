@@ -8,6 +8,6 @@ export interface NewsInterface{
     description:string,
     url:string,
     urlToImage:string,
-    publishedAt:string,
+    publishedAt:string|Date,
     content:string,
 }

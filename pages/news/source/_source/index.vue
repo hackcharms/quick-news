@@ -1,7 +1,12 @@
 <template>
   <div>
     <v-container>
-      <h1 class="pb-6 text-center">Top Headlines in {{ selectedCategory }}</h1>
+      <h1 class="pb-6 text-center">
+        Top Headlines in
+        <span class="text-capitalize">
+          {{ $route.params.source.replaceAll('\-', ' ') }}
+        </span>
+      </h1>
       <v-row v-if="isNewsLoading">
         <v-col v-for="index in 2" :key="index" class="col-12 col-md-6">
           <NewsCardSkeleton />
@@ -33,7 +38,7 @@ import NewsCardSkeleton from '~/components/skeleton/NewsCardSkeleton.vue'
 @Component({
   components: { NewsCardSkeleton },
   computed: {
-    ...mapGetters(['isNewsLoading', 'selectedCategory', 'selectedCountry']),
+    ...mapGetters(['isNewsLoading']),
   },
   methods: {
     ...mapMutations(['updateIsnewsLoading']),
@@ -45,8 +50,6 @@ export default class Source extends Vue {
   isNewsLoading!: boolean
 
   updateIsnewsLoading!: Function
-
-  selectedCategory!: string
 
   page: number = 1
 

@@ -1,6 +1,11 @@
 <template>
   <v-card class="mx-auto" width="500">
-    <v-img class="white--text align-end" height="200px" :src="news?.urlToImage">
+    <v-img
+      class="white--text align-end"
+      height="200px"
+      :src="news?.urlToImage"
+      @error="imageErrorHandle"
+    >
       <v-card-title class="bg-gradient">
         <NuxtLink :to="`/view/?url=${news?.url}`" class="text-decoration-none">
           #{{ index }} {{ news?.title }}
@@ -10,7 +15,7 @@
       <template #placeholder>
         <v-row class="fill-height ma-0" align="center" justify="center">
           <v-progress-circular
-            v-if="news?.urlToImage"
+            v-if="news?.urlToImage && !imageLoadError"
             indeterminate
             color="grey lighten-5"
           ></v-progress-circular>
@@ -83,10 +88,16 @@ export default class News extends Vue {
 
   selectedCountry!: string
 
+  imageLoadError: boolean = false
+
   countries = countries
   getCountryCompleteName = getCountryCompleteName
 
   dateToHuman: Function = dateToHuman
+
+  imageErrorHandle() {
+    this.imageLoadError = true
+  }
 }
 </script>
 

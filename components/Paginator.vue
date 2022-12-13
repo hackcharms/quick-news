@@ -1,5 +1,5 @@
 <template>
-  <div class="text-center">
+  <div v-if="length > 1" class="text-center">
     <v-pagination
       :value="value"
       :length="length"

@@ -14,7 +14,7 @@ import { Component, Prop, Vue } from 'vue-property-decorator'
 
 @Component
 export default class Paginator extends Vue {
-  @Prop() value!: number
-  @Prop() length!: number
+  @Prop(Number) value!: number
+  @Prop(Number) length!: number
 }
 </script>

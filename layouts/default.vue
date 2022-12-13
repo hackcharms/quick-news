@@ -76,6 +76,9 @@ export default {
       miniVariant: false,
       right: true,
       title: 'Quick Headlines',
+      clipped: false,
+      fixed: false,
+      rightDrawer: false,
     }
   },
 }

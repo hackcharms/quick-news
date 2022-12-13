@@ -2,10 +2,7 @@
   <v-card class="mx-auto" width="500">
     <v-img class="white--text align-end" height="200px" :src="news?.urlToImage">
       <v-card-title class="bg-gradient">
-        <NuxtLink
-          :to="`/view/?url=${news?.url}`"
-          class="text-decoration-none"
-        >
+        <NuxtLink :to="`/view/?url=${news?.url}`" class="text-decoration-none">
           #{{ index }} {{ news?.title }}
         </NuxtLink>
       </v-card-title>
@@ -81,8 +78,8 @@ import { countries } from '~/assets/coutries'
   },
 })
 export default class News extends Vue {
-  @Prop() news!: NewsInterface | null
-  @Prop() index!: number
+  @Prop(Object) news!: NewsInterface | null
+  @Prop(Number) index!: number
 
   selectedCountry!: string
 

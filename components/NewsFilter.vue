@@ -48,7 +48,7 @@ import { countries } from '~/assets/coutries'
   },
 })
 export default class NewsFilter extends Vue {
-  @Prop() reloadNews!: Function
+  @Prop(Function) reloadNews!: Function
 
   title: string = ''
   countries = countries

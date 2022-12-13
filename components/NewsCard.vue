@@ -2,9 +2,12 @@
   <v-card class="mx-auto" width="500">
     <v-img class="white--text align-end" height="200px" :src="news?.urlToImage">
       <v-card-title class="bg-gradient">
-        <a :href="news?.url" class="text-decoration-none">
-          #{{ index }} {{ news?.title }}</a
+        <NuxtLink
+          :to="`/view/?url=${news?.url}`"
+          class="text-decoration-none"
         >
+          #{{ index }} {{ news?.title }}
+        </NuxtLink>
       </v-card-title>
 
       <template #placeholder>
@@ -43,7 +46,7 @@
     <v-card-actions>
       <NuxtLink
         v-if="news?.source.id"
-        :to="`/news/source/${news?.source.id}`"
+        :to="`/source/${news?.source.id}`"
         class="text-decoration-none d-block"
       >
         <v-chip class="ma-2" outlined style="cursor: pointer">
@@ -54,7 +57,7 @@
 
       <NuxtLink
         v-if="selectedCountry"
-        :to="`/news/country/${selectedCountry}`"
+        :to="`/country/${selectedCountry}`"
         class="text-decoration-none d-block"
       >
         <v-chip class="ma-2" outlined style="cursor: pointer">

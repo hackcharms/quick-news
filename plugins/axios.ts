@@ -2,17 +2,7 @@ import { Context } from "@nuxt/types"
 
 export default function ({ $axios,$config, redirect }:Context) {
   $axios.onRequest(config => {
-    // console.log("env",process.env)
-    // console.log("this.$config",$config)
-    if(config.url?.includes('?')){
-      if(config.url?.endsWith('&')||config.url?.endsWith('?')){
-        config.url=config.url+'apiKey='+$config.API_KEY
-      }else{
-        config.url=config.url+'&apiKey='+$config.API_KEY
-      }
-    }else{
-        config.url=`${config.url}?apiKey=${$config.API_KEY}`
-    }
+    config.params.apiKey=$config.API_KEY
     return config;
   })
   

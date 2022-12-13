@@ -1,87 +1,91 @@
 <template>
-  <v-row justify="center" align="center">
-    <v-col cols="12" sm="8" md="6">
-      <v-card class="logo py-4 d-flex justify-center">
-        <NuxtLogo />
-        <VuetifyLogo />
-      </v-card>
-      <v-card>
-        <v-card-title class="headline">
-          Welcome to the Vuetify + Nuxt.js template
-        </v-card-title>
-        <v-card-text>
-          <p>
-            Vuetify is a progressive Material Design component framework for
-            Vue.js. It was designed to empower developers to create amazing
-            applications.
-          </p>
-          <p>
-            For more information on Vuetify, check out the
-            <a
-              href="https://vuetifyjs.com"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              documentation </a
-            >.
-          </p>
-          <p>
-            If you have questions, please join the official
-            <a
-              href="https://chat.vuetifyjs.com/"
-              target="_blank"
-              rel="noopener noreferrer"
-              title="chat"
-            >
-              discord </a
-            >.
-          </p>
-          <p>
-            Find a bug? Report it on the github
-            <a
-              href="https://github.com/vuetifyjs/vuetify/issues"
-              target="_blank"
-              rel="noopener noreferrer"
-              title="contribute"
-            >
-              issue board </a
-            >.
-          </p>
-          <p>
-            Thank you for developing with Vuetify and I look forward to bringing
-            more exciting features in the future.
-          </p>
-          <div class="text-xs-right">
-            <em><small>&mdash; John Leider</small></em>
-          </div>
-          <hr class="my-3" />
-          <a
-            href="https://nuxtjs.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Nuxt Documentation
-          </a>
-          <br />
-          <a
-            href="https://github.com/nuxt/nuxt.js"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Nuxt GitHub
-          </a>
-        </v-card-text>
-        <v-card-actions>
-          <v-spacer />
-          <v-btn color="primary" nuxt to="/inspire"> Continue </v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-col>
-  </v-row>
+  <div>
+    <v-container>
+      <NewsFilter :reloadNews="getNews" />
+      <v-row v-if="isNewsLoading">
+        <v-col v-for="index in 2" :key="index" class="col-12 col-md-6">
+          <NewsCardSkeleton />
+        </v-col>
+      </v-row>
+      <v-row v-else>
+        <v-col
+          v-for="(news, index) in newsBasedOnPage"
+          :key="`${news?.source.id}-${index}`"
+        >
+          <NewsCard :news="news" :index="newsIndex(index)" />
+        </v-col>
+      </v-row>
+      <v-row class="d-flex my-4" justify="center">
+        <Paginator v-model="page" :length="pageLength" />
+      </v-row>
+    </v-container>
+  </div>
 </template>
+<script lang="ts">
+import { Component, Vue, Watch } from 'vue-property-decorator'
+// import Vue from 'vue'
+import { mapGetters, mapMutations } from 'vuex'
 
-<script>
-export default {
-  name: 'IndexPage',
+import { NewsInterface } from '~/interfaces'
+// import newDataFromFile from '~/static/news'
+import NewsCardSkeleton from '~/components/skeleton/NewsCardSkeleton.vue'
+
+@Component({
+  components: { NewsCardSkeleton },
+  computed: {
+    ...mapGetters(['isNewsLoading', 'selectedCategory', 'selectedCountry']),
+  },
+  methods: {
+    ...mapMutations(['updateIsnewsLoading']),
+  },
+})
+export default class News extends Vue {
+  newsData: Array<NewsInterface | null> = []
+
+  isNewsLoading!: boolean
+  selectedCategory!: string
+  selectedCountry!: string
+  updateIsnewsLoading!: Function
+
+  page: number = 1
+
+  perPageData: number = 10
+
+  @Watch('page')
+  watchpage(value: number, old: number) {
+    console.log('page Watched value', value, old)
+  }
+
+  get pageLength() {
+    return Math.ceil(this.newsData.length / this.perPageData)
+  }
+
+  get newsBasedOnPage() {
+    return this.newsData.slice(
+      (this.page - 1) * this.perPageData,
+      this.page * this.perPageData
+    )
+  }
+
+  async getNews() {
+    const newsData = await this.$axios.$get(`top-headlines`, {
+      params: {
+        category: this.selectedCategory,
+        country: this.selectedCountry,
+        pageSize: 100,
+      },
+    })
+    this.newsData = newsData.articles as NewsInterface[]
+    this.updateIsnewsLoading(false)
+  }
+
+  newsIndex(index: number): number {
+    return (this.page - 1) * this.perPageData + index + 1
+  }
+
+  async mounted() {
+    await this.getNews()
+  }
 }
 </script>
+<style scoped></style>

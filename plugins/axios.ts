@@ -24,5 +24,4 @@ export default function ({ $axios,$config, redirect }:Context) {
   })
   $axios.setBaseURL('https://newsapi.org/v2/')
   
-  $axios.setHeader("Access-Control-Allow-Origin","*")  
 }

@@ -48,19 +48,19 @@ export default {
     API_KEY:process.env.API_KEY,
   },
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
-  // axios: {
+  axios: {
   //   // Workaround to avoid enforcing hard-coded localhost:3000: https://github.com/nuxt-community/axios-module/issues/308
   //   baseURL: 'https://newsapi.org/v2/',
-  //   Headers:[
-  //     {
-  //       "Access-Control-Allow-Origin":"*"
-  //     }
-  //   ]
+    // Headers:[
+    //   {
+    //     "Access-Control-Allow-Origin":"*"
+    //   }
+    // ]
   //   // Does not worked
   //   // params:{
   //   //   apiKey:process.env.API_KEY   
   //   // }
-  // },
+  },
 
   // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify
   vuetify: {

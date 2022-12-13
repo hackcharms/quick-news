@@ -1,7 +1,7 @@
 <template>
   <v-card class="mx-auto" width="500">
     <v-img class="white--text align-end" height="200px" :src="news?.urlToImage">
-      <v-card-title>
+      <v-card-title class="bg-gradient">
         <a :href="news?.url" class="text-decoration-none">
           #{{ index }} {{ news?.title }}</a
         >
@@ -93,10 +93,13 @@ export default class News extends Vue {
 <style lang="scss" scoped>
 a {
   transition: transform 0.5s ease;
+  color: rgb(227, 213, 213);
   &:hover {
-    color: darkblue;
+    color: white;
     transform: scale(1.02);
-    box-shadow: 2px inset;
   }
+}
+.bg-gradient {
+  background-image: linear-gradient(transparent, black);
 }
 </style>

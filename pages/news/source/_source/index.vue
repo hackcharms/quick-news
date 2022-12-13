@@ -67,6 +67,7 @@ export default class Source extends Vue {
     const newsData = await this.$axios.$get(`top-headlines`, {
       params: {
         sources: this.$route.params.source,
+        pageSize: 100,
       },
     })
     this.newsData = newsData.articles as NewsInterface[]

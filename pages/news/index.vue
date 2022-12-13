@@ -72,6 +72,7 @@ export default class News extends Vue {
       params: {
         category: this.selectedCategory,
         country: this.selectedCountry,
+        pageSize: 100,
       },
     })
     this.newsData = newsData.articles as NewsInterface[]

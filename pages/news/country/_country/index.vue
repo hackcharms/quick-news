@@ -71,6 +71,7 @@ export default class Country extends Vue {
     const newsData = await this.$axios.$get(`top-headlines`, {
       params: {
         country: this.$route.params.country,
+        pageSize: 100,
       },
     })
     this.newsData = newsData.articles as NewsInterface[]

@@ -5,6 +5,7 @@
       :length="length"
       prev-icon="mdi-menu-left"
       next-icon="mdi-menu-right"
+      :total-visible="7"
       @input="(input) => $emit('input', input)"
     ></v-pagination>
   </div>

@@ -22,7 +22,7 @@
   </div>
 </template>
 <script lang="ts">
-import { Component, Vue, Watch } from 'vue-property-decorator'
+import { Component, Vue } from 'vue-property-decorator'
 // import Vue from 'vue'
 import { mapGetters, mapMutations } from 'vuex'
 
@@ -51,11 +51,6 @@ export default class News extends Vue {
 
   perPageData: number = 10
 
-  @Watch('page')
-  watchpage(value: number, old: number) {
-    console.log('page Watched value', value, old)
-  }
-
   get pageLength() {
     return Math.ceil(this.newsData.length / this.perPageData)
   }
@@ -75,6 +70,7 @@ export default class News extends Vue {
         pageSize: 100,
       },
     })
+    this.page = 1
     this.newsData = newsData.articles as NewsInterface[]
     this.updateIsnewsLoading(false)
   }

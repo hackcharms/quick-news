@@ -9,17 +9,20 @@
       </v-row>
       <v-row v-else>
         <v-col
-          v-for="(news, index) in newsData"
+          v-for="(news, index) in newsBasedOnPage"
           :key="`${news?.source.id}-${index}`"
         >
-          <NewsCard :news="news" />
+          <NewsCard :news="news" :index="newsIndex(index)" />
         </v-col>
+      </v-row>
+      <v-row class="d-flex my-4" justify="center">
+        <Paginator v-model="page" :length="pageLength" />
       </v-row>
     </v-container>
   </div>
 </template>
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator'
+import { Component, Vue, Watch } from 'vue-property-decorator'
 // import Vue from 'vue'
 import { mapGetters, mapMutations } from 'vuex'
 
@@ -44,22 +47,39 @@ export default class extends Vue {
   selectedCountry!: string
   updateIsnewsLoading!: Function
 
-  async getNews() {
-    const newsData = await this.$axios.$get(
-      `top-headlines`,
-      {
-        params: {
-          category: this.selectedCategory,
-          country: this.selectedCountry,
-        },
-      }
-      // (this.selectedCountry !== '' ? `country=${this.selectedCountry}` : '') +
-      // (this.selectedCategory !== ''
-      //   ? `categroy=${this.selectedCategory}`
-      //   : '')
+  page: number = 1
+
+  perPageData: number = 10
+
+  @Watch('page')
+  watchpage(value: number, old: number) {
+    console.log('page Watched value', value, old)
+  }
+
+  get pageLength() {
+    return Math.ceil(this.newsData.length / this.perPageData)
+  }
+
+  get newsBasedOnPage() {
+    return this.newsData.slice(
+      (this.page - 1) * this.perPageData,
+      this.page * this.perPageData
     )
+  }
+
+  async getNews() {
+    const newsData = await this.$axios.$get(`top-headlines`, {
+      params: {
+        category: this.selectedCategory,
+        country: this.selectedCountry,
+      },
+    })
     this.newsData = newsData.articles as NewsInterface[]
     this.updateIsnewsLoading(false)
+  }
+
+  newsIndex(index: number): number {
+    return (this.page - 1) * this.perPageData + index + 1
   }
 
   async mounted() {

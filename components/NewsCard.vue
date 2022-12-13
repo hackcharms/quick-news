@@ -1,11 +1,16 @@
 <template>
   <v-card class="mx-auto" max-width="500">
-    <v-img
-      class="white--text align-end"
-      height="200px"
-      src="https://cdn.vuetifyjs.com/images/cards/docks.jpg"
-    >
-      <v-card-title>{{ news?.title }}</v-card-title>
+    <v-img class="white--text align-end" height="200px" :src="news?.urlToImage">
+      <v-card-title>#{{ index }} {{ news?.title }}</v-card-title>
+
+      <template #placeholder>
+        <v-row class="fill-height ma-0" align="center" justify="center">
+          <v-progress-circular
+            indeterminate
+            color="grey lighten-5"
+          ></v-progress-circular>
+        </v-row>
+      </template>
     </v-img>
 
     <v-card-subtitle class="pb-0">
@@ -37,6 +42,8 @@ import { dateToHuman } from '@/utils'
 @Component
 export default class News extends Vue {
   @Prop() news!: NewsInterface | null
+  @Prop() index!: number
+
   dateToHuman: Function = dateToHuman
 }
 </script>

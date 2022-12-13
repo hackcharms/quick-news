@@ -1,4 +1,6 @@
 import moment from 'moment';
+import {countries} from "@/assets/coutries"
+
 export function dateToHuman(date:Date|string):string|Date{
     try{
         // return new Intl.DateTimeFormat('en-US', {
@@ -12,5 +14,16 @@ export function dateToHuman(date:Date|string):string|Date{
     }catch($e){
         console.error($e);
         return date;
+    }
+}
+
+export function getCountryCompleteName(countryCode:string):string{
+    try{
+        const country=countries.find(el=>el.code===countryCode)
+        return country?.country??countryCode;
+    }
+    catch($e){
+        console.error($e);
+        return countryCode;
     }
 }

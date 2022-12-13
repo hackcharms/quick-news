@@ -41,26 +41,50 @@
     </v-card-text>
 
     <v-card-actions>
-      <NuxtLink v-if="news?.source.id" :to="`/news/${news?.source.id}`">
-        <v-chip class="ma-2" color="success" outlined>
-          <v-icon left> mdi-server-plus </v-icon>
+      <NuxtLink
+        v-if="news?.source.id"
+        :to="`/news/source/${news?.source.id}`"
+        class="text-decoration-none d-block"
+      >
+        <v-chip class="ma-2" outlined style="cursor: pointer">
+          <v-icon left> mdi-origin </v-icon>
           {{ news?.source.name }}
         </v-chip>
       </NuxtLink>
 
-      <v-btn color="orange" text> Read More </v-btn>
+      <NuxtLink
+        v-if="selectedCountry"
+        :to="`/news/country/${selectedCountry}`"
+        class="text-decoration-none d-block"
+      >
+        <v-chip class="ma-2" outlined style="cursor: pointer">
+          <v-icon left> mdi-earth </v-icon>
+          {{ getCountryCompleteName(selectedCountry) }}
+        </v-chip>
+      </NuxtLink>
     </v-card-actions>
   </v-card>
 </template>
 <script lang="ts">
 import { Vue, Component, Prop } from 'vue-property-decorator'
+import { mapGetters } from 'vuex'
 import { NewsInterface } from '~/interfaces'
-import { dateToHuman } from '@/utils'
+import { dateToHuman, getCountryCompleteName } from '@/utils'
+import { countries } from '~/assets/coutries'
 
-@Component
+@Component({
+  computed: {
+    ...mapGetters(['selectedCountry']),
+  },
+})
 export default class News extends Vue {
   @Prop() news!: NewsInterface | null
   @Prop() index!: number
+
+  selectedCountry!: string
+
+  countries = countries
+  getCountryCompleteName = getCountryCompleteName
 
   dateToHuman: Function = dateToHuman
 }

@@ -37,6 +37,7 @@
 import { Component, Prop } from 'vue-property-decorator'
 import Vue from 'vue'
 import { mapGetters, mapMutations } from 'vuex'
+import { countries } from '~/assets/coutries'
 
 @Component({
   computed: {
@@ -50,21 +51,7 @@ export default class NewsFilter extends Vue {
   @Prop() reloadNews!: Function
 
   title: string = ''
-  countries: Array<{ country: string; code: string }> = [
-    {
-      country: 'India',
-      code: 'in',
-    },
-    {
-      country: 'United State Of America',
-      code: 'us',
-    },
-    { country: 'China', code: 'ch' },
-    {
-      country: 'United Arab',
-      code: 'ua',
-    },
-  ]
+  countries = countries
 
   categories: Array<string> = [
     'business',

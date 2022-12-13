@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-container>
-      <NewsFilter :reloadNews="getNews" />
+      <h1 class="pb-6 text-center">Top Headlines in {{ selectedCategory }}</h1>
       <v-row v-if="isNewsLoading">
         <v-col v-for="index in 2" :key="index" class="col-12 col-md-6">
           <NewsCardSkeleton />
@@ -22,7 +22,7 @@
   </div>
 </template>
 <script lang="ts">
-import { Component, Vue, Watch } from 'vue-property-decorator'
+import { Component, Vue } from 'vue-property-decorator'
 // import Vue from 'vue'
 import { mapGetters, mapMutations } from 'vuex'
 
@@ -39,22 +39,18 @@ import NewsCardSkeleton from '~/components/skeleton/NewsCardSkeleton.vue'
     ...mapMutations(['updateIsnewsLoading']),
   },
 })
-export default class News extends Vue {
+export default class Source extends Vue {
   newsData: Array<NewsInterface | null> = []
 
   isNewsLoading!: boolean
-  selectedCategory!: string
-  selectedCountry!: string
+
   updateIsnewsLoading!: Function
+
+  selectedCategory!: string
 
   page: number = 1
 
   perPageData: number = 10
-
-  @Watch('page')
-  watchpage(value: number, old: number) {
-    console.log('page Watched value', value, old)
-  }
 
   get pageLength() {
     return Math.ceil(this.newsData.length / this.perPageData)
@@ -70,8 +66,7 @@ export default class News extends Vue {
   async getNews() {
     const newsData = await this.$axios.$get(`top-headlines`, {
       params: {
-        category: this.selectedCategory,
-        country: this.selectedCountry,
+        sources: this.$route.params.source,
       },
     })
     this.newsData = newsData.articles as NewsInterface[]

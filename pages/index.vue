@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-container>
-      <NewsFilter :reloadNews="getNews" />
+      <NewsFilter @reload-news="getNews" />
       <v-row v-if="isNewsLoading">
         <v-col v-for="index in 2" :key="index" class="col-12 col-md-6">
           <NewsCardSkeleton />

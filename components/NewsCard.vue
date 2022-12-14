@@ -1,7 +1,7 @@
 <template>
   <v-card class="mx-auto" width="500">
     <v-img
-      class="white--text align-end"
+      class="align-end"
       height="200px"
       :src="news?.urlToImage"
       @error="imageErrorHandle"
@@ -29,20 +29,21 @@
     <v-card-subtitle class="pb-0">
       <v-row class="pb-2">
         <v-col>
-          {{ dateToHuman(news?.publishedAt) }}
+          <time>
+            {{ dateToHuman(news?.publishedAt) }}
+          </time>
         </v-col>
         <v-col left>
           <v-chip small pill>
             <v-icon left> mdi-account-outline </v-icon>
-            {{ news?.author || 'Unknown' }}
+            <a rel="author">{{ news?.author || 'Unknown' }}</a>
           </v-chip>
         </v-col>
       </v-row>
     </v-card-subtitle>
 
     <v-card-text class="text--primary">
-      <div>{{ news?.author }}</div>
-      <div v-html="news?.description"></div>
+      <article v-html="news?.description"></article>
     </v-card-text>
 
     <v-card-actions>
@@ -65,7 +66,9 @@
         <v-chip class="ma-2" outlined style="cursor: pointer">
           <v-icon left> mdi-earth </v-icon>
           <!-- {{ getCountryCompleteName(selectedCountry) }} -->
-          {{ getCountry('code')(selectedCountry)('country') }}
+          <address>
+            {{ getCountry('code')(selectedCountry)('country') }}
+          </address>
         </v-chip>
       </NuxtLink>
     </v-card-actions>

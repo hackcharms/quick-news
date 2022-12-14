@@ -63,10 +63,12 @@ export default class News extends Vue {
   }
 
   async getNews() {
-    const newsData = await this.$axios.$get(`top-headlines`, {
+    const newsData = await this.$axios.$get(`everything`, {
       params: {
-        category: this.selectedCategory,
-        country: this.selectedCountry,
+        q:
+          this.selectedCategory +
+          (this.selectedCountry && this.selectedCategory && ' OR ') +
+          this.selectedCountry,
         pageSize: 100,
       },
     })

@@ -3,12 +3,6 @@ import {countries} from "@/assets/coutries"
 
 export function dateToHuman(date:Date|string):string|Date{
     try{
-        // return new Intl.DateTimeFormat('en-US', {
-        //     year: 'numeric', month: 'numeric', day: 'numeric',
-        //         hour: 'numeric', minute: 'numeric', second: 'numeric',
-        //         hour12: true,
-        //         timeZone: 'Asia/Kolkata'
-        // }).format(new Date(date));
         return moment(date).format('Do MMMM YYYY, h:mm:ss a');
 
     }catch($e){
@@ -19,7 +13,7 @@ export function dateToHuman(date:Date|string):string|Date{
 
 export function getCountryCompleteName(countryCode:string):string{
     try{
-        const country=countries.find(el=>el.code===countryCode)
+        const country=countries.find(country=>country.code===countryCode)
         return country?.country??countryCode;
     }
     catch($e){
@@ -36,7 +30,7 @@ export function getCountryCompleteName(countryCode:string):string{
  */
 export const getCountry:Function=(matchKey:"code"|"country"):Function=>(matchValue:string):Function=>(getValue:"code"|"country"):string=>{
    try{
-        const country=countries.find((el=>el[matchKey]===matchValue));
+        const country=countries.find((country=>country[matchKey]===matchValue));
         return country?.[getValue]??matchValue;
     }
     catch($e){

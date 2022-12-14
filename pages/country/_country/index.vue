@@ -74,9 +74,9 @@ export default class Country extends Vue {
   }
 
   async getNews() {
-    const newsData = await this.$axios.$get(`top-headlines`, {
+    const newsData = await this.$axios.$get(`everything`, {
       params: {
-        country: this.$route.params.country,
+        q: this.$route.params.country,
         pageSize: 100,
       },
     })

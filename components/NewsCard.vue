@@ -28,12 +28,12 @@
 
     <v-card-subtitle class="pb-0">
       <v-row class="pb-2">
-        <v-col>
+        <v-col cols="12" md="6">
           <time>
             {{ dateToHuman(news?.publishedAt) }}
           </time>
         </v-col>
-        <v-col left>
+        <v-col cols="12" md="6" left>
           <v-chip small pill>
             <v-icon left> mdi-account-outline </v-icon>
             <a rel="author">{{ news?.author || 'Unknown' }}</a>

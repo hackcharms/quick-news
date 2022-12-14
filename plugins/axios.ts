@@ -8,8 +8,8 @@ export default function ({ $axios,$config, redirect }:Context) {
   
   $axios.onError((error:any) => {
     const code = parseInt(error.response && error.response.status)
-    if (code === 400) {
-      redirect('/400');
+    if (code === 404) {
+      redirect('/404');
     }
   })
   $axios.setBaseURL('https://newsapi.org/v2/')

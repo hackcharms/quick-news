@@ -2,7 +2,7 @@
   <div>
     <v-container>
       <h1 class="pb-6 text-center">
-        Top Headlines in {{ getCountryCompleteName(selectedCountry) }}
+        Top Headlines in {{ getCountryValueBasedOnKey('country') }}
       </h1>
       <v-row v-if="isNewsLoading">
         <v-col v-for="index in 2" :key="index" class="col-12 col-md-6">
@@ -31,7 +31,7 @@ import { mapGetters, mapMutations } from 'vuex'
 import { NewsInterface } from '~/interfaces'
 // import newDataFromFile from '~/static/news'
 import NewsCardSkeleton from '~/components/skeleton/NewsCardSkeleton.vue'
-import { getCountryCompleteName } from '@/utils'
+import { getCountry } from '@/utils'
 
 @Component({
   components: { NewsCardSkeleton },
@@ -50,6 +50,8 @@ export default class Country extends Vue {
 
   updateIsnewsLoading!: Function
 
+  getCountry: Function = getCountry
+
   page: number = 1
 
   perPageData: number = 10
@@ -65,7 +67,11 @@ export default class Country extends Vue {
     )
   }
 
-  getCountryCompleteName = getCountryCompleteName
+  // getCountryCompleteName = getCountryCompleteName
+
+  get getCountryValueBasedOnKey() {
+    return this.getCountry('code')(this.selectedCountry)
+  }
 
   async getNews() {
     const newsData = await this.$axios.$get(`top-headlines`, {

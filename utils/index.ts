@@ -27,3 +27,22 @@ export function getCountryCompleteName(countryCode:string):string{
         return countryCode;
     }
 }
+
+/**
+ * how can we write docsblock and how to implemet typing for this method
+ * as intellisence is only showing params and return for first method only and no details for rest;
+ * @param matchKey()()()
+ * @returns Function
+ */
+export const getCountry:Function=(matchKey:"code"|"country"):Function=>(matchValue:string):Function=>(getValue:"code"|"country"):string=>{
+   try{
+        const country=countries.find((el=>el[matchKey]===matchValue));
+        return country?.[getValue]??matchValue;
+    }
+    catch($e){
+        console.error($e);
+        return matchValue;
+    }
+  }
+
+  

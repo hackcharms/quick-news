@@ -64,7 +64,8 @@
       >
         <v-chip class="ma-2" outlined style="cursor: pointer">
           <v-icon left> mdi-earth </v-icon>
-          {{ getCountryCompleteName(selectedCountry) }}
+          <!-- {{ getCountryCompleteName(selectedCountry) }} -->
+          {{ getCountry('code')(selectedCountry)('country') }}
         </v-chip>
       </NuxtLink>
     </v-card-actions>
@@ -74,7 +75,7 @@
 import { Vue, Component, Prop } from 'vue-property-decorator'
 import { mapGetters } from 'vuex'
 import { NewsInterface } from '~/interfaces'
-import { dateToHuman, getCountryCompleteName } from '@/utils'
+import { dateToHuman, getCountryCompleteName, getCountry } from '@/utils'
 import { countries } from '~/assets/coutries'
 
 @Component({
@@ -92,6 +93,7 @@ export default class News extends Vue {
 
   countries = countries
   getCountryCompleteName = getCountryCompleteName
+  getCountry: Function = getCountry
 
   dateToHuman: Function = dateToHuman
 

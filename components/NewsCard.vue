@@ -73,7 +73,7 @@
         v-if="selectedCountry"
         :href="`/country/${selectedCountry}`"
         class="text-none text-custom-hover"
-        target="_blank"
+        target="active"
         outlined
         rounded
         small

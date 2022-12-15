@@ -2,67 +2,45 @@
   <div>
     <v-container>
       <NewsFilter @reload-news="getNews" />
-      <v-row v-if="isNewsLoading">
-        <v-col v-for="index in 2" :key="index" class="col-12 col-md-6">
-          <NewsCardSkeleton />
-        </v-col>
-      </v-row>
-      <v-row v-else>
-        <v-col
-          v-for="(news, index) in newsBasedOnPage"
-          :key="`${news?.source.id}-${index}`"
-        >
-          <NewsCard :news="news" :index="newsIndex(index)" />
-        </v-col>
-      </v-row>
-      <v-row class="d-flex my-4" justify="center">
-        <Paginator v-model="page" :length="pageLength" />
-      </v-row>
+      <NewsIndexComponent :news-data="newsData" />
     </v-container>
   </div>
 </template>
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
-// import Vue from 'vue'
-import { mapGetters, mapMutations } from 'vuex'
+import { mapActions, mapGetters, mapMutations } from 'vuex'
+
+import NewsIndexComponent from '../components/NewsIndex.vue'
 
 import { NewsInterface } from '~/interfaces'
-// import newDataFromFile from '~/static/news'
+
 import NewsCardSkeleton from '~/components/skeleton/NewsCardSkeleton.vue'
 
 @Component({
-  components: { NewsCardSkeleton },
+  components: { NewsCardSkeleton, NewsIndexComponent },
   computed: {
-    ...mapGetters(['isNewsLoading', 'selectedCategory', 'selectedCountry']),
+    ...mapGetters([
+      'isNewsLoading',
+      'selectedCategory',
+      'selectedCountry',
+      'newsData',
+    ]),
   },
   methods: {
     ...mapMutations(['updateIsnewsLoading']),
+    ...mapActions(['resetPaginatorCurrentPage']),
   },
 })
-export default class News extends Vue {
-  newsData: Array<NewsInterface | null> = []
-
-  isNewsLoading!: boolean
+export default class NewsIndex extends Vue {
+  newsData!: Array<NewsInterface | null>
   selectedCategory!: string
   selectedCountry!: string
+
   updateIsnewsLoading!: Function
-
-  page: number = 1
-
-  perPageData: number = 10
-
-  get pageLength() {
-    return Math.ceil(this.newsData.length / this.perPageData)
-  }
-
-  get newsBasedOnPage() {
-    return this.newsData.slice(
-      (this.page - 1) * this.perPageData,
-      this.page * this.perPageData
-    )
-  }
+  resetPaginatorCurrentPage!: Function
 
   async getNews() {
+    this.updateIsnewsLoading(true)
     const newsData = await this.$axios.$get(`everything`, {
       params: {
         q:
@@ -72,13 +50,11 @@ export default class News extends Vue {
         pageSize: 100,
       },
     })
-    this.page = 1
-    this.newsData = newsData.articles as NewsInterface[]
-    this.updateIsnewsLoading(false)
-  }
 
-  newsIndex(index: number): number {
-    return (this.page - 1) * this.perPageData + index + 1
+    this.$store.commit('updateNewsData', newsData.articles)
+    this.resetPaginatorCurrentPage()
+
+    this.updateIsnewsLoading(false)
   }
 
   async mounted() {

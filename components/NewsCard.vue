@@ -33,7 +33,7 @@
       <v-row class="pb-2">
         <v-col cols="12" md="6">
           <time>
-            {{ dateToHuman(news?.publishedAt) }}
+            {{ formatDateTime(news?.publishedAt) }}
           </time>
         </v-col>
         <v-col cols="12" md="6" left>
@@ -90,7 +90,7 @@
 import { Vue, Component, Prop } from 'vue-property-decorator'
 import { mapGetters } from 'vuex'
 import { NewsInterface } from '~/interfaces'
-import { dateToHuman, getCountryCompleteName, getCountry } from '@/utils'
+import { formatDateTime, getCountryCompleteName, getCountry } from '@/utils'
 import { countries } from '~/assets/coutries'
 
 @Component({
@@ -110,7 +110,7 @@ export default class News extends Vue {
   getCountryCompleteName = getCountryCompleteName
   getCountry: Function = getCountry
 
-  dateToHuman: Function = dateToHuman
+  formatDateTime: Function = formatDateTime
 
   imageErrorHandle() {
     this.imageLoadError = true

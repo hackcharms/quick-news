@@ -1,7 +1,7 @@
 import moment from 'moment';
 import {countries} from "@/assets/coutries"
 
-export function dateToHuman(date:Date|string):string|Date{
+export function formatDateTime(date:Date|string):string|Date{
     try{
         return moment(date).format('Do MMMM YYYY, h:mm:ss a');
 

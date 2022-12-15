@@ -1,52 +1,51 @@
 <template>
   <div>
     <v-container>
-      <NewsFilter @reload-news="getNews" />
+      <h1 class="pb-6 text-center">
+        Top Headlines in
+        <span class="text-capitalize">
+          {{ $route.params.source.replaceAll('\-', ' ') }}
+        </span>
+      </h1>
       <NewsIndexComponent :news-data="newsData" />
     </v-container>
   </div>
 </template>
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
-import { mapActions, mapGetters, mapMutations } from 'vuex'
 
-import NewsIndexComponent from '../components/NewsIndex.vue'
+import { mapGetters, mapMutations, mapActions } from 'vuex'
 
 import { NewsInterface } from '~/interfaces'
+
+import NewsIndexComponent from '@/components/NewsIndex.vue'
 
 import NewsCardSkeleton from '~/components/skeleton/NewsCardSkeleton.vue'
 
 @Component({
   components: { NewsCardSkeleton, NewsIndexComponent },
   computed: {
-    ...mapGetters([
-      'isNewsLoading',
-      'selectedCategory',
-      'selectedCountry',
-      'newsData',
-    ]),
+    ...mapGetters(['isNewsLoading', 'newsData']),
   },
   methods: {
     ...mapMutations(['updateIsnewsLoading']),
     ...mapActions(['resetPaginatorCurrentPage']),
   },
 })
-export default class NewsIndex extends Vue {
+export default class Source extends Vue {
   newsData!: Array<NewsInterface | null>
-  selectedCategory!: string
-  selectedCountry!: string
+
+  isNewsLoading!: boolean
 
   updateIsnewsLoading!: Function
+
   resetPaginatorCurrentPage!: Function
 
   async getNews() {
     this.updateIsnewsLoading(true)
     const newsData = await this.$axios.$get(`everything`, {
       params: {
-        q:
-          this.selectedCategory +
-          (this.selectedCountry && this.selectedCategory && ' OR ') +
-          this.selectedCountry,
+        sources: this.$route.params.source,
         pageSize: 100,
       },
     })

@@ -8,7 +8,7 @@
     >
       <v-card-title class="bg-gradient">
         <NuxtLink
-          :to="`/${news?.title}`"
+          :to="`/news/${news?.title}`"
           class="text-decoration-none text-custom-hover"
         >
           #{{ index || '' }} {{ news?.title }}

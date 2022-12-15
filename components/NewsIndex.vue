@@ -14,7 +14,7 @@
       </v-col>
     </v-row>
     <v-row class="d-flex my-4" justify="center">
-      <Paginator v-model="paginatorCurrentPage" :length="pageLength" />
+      <Paginator v-model="paginatorCurrentPage" :page-length="pageLength" />
     </v-row>
   </div>
 </template>

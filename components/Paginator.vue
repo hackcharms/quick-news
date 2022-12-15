@@ -1,8 +1,8 @@
 <template>
-  <div v-if="length > 1" class="text-center">
+  <div v-if="pageLength > 1" class="text-center">
     <v-pagination
       :value="value"
-      :length="length"
+      :length="pageLength"
       prev-icon="mdi-menu-left"
       next-icon="mdi-menu-right"
       :total-visible="7"
@@ -16,6 +16,6 @@ import { Component, Prop, Vue } from 'vue-property-decorator'
 @Component
 export default class Paginator extends Vue {
   @Prop(Number) value!: number
-  @Prop(Number) length!: number
+  @Prop(Number) pageLength!: number
 }
 </script>

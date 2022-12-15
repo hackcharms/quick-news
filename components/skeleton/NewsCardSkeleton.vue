@@ -1,7 +1,6 @@
 <template>
-  <!-- :color="`grey ${theme.isDark ? 'darken-2' : 'lighten-4'}`" -->
-  <v-sheet class="pa-2" max-width="500">
-    <v-skeleton-loader class="mx-auto" type="card"></v-skeleton-loader>
+  <v-sheet class="mx-auto" width="500">
+    <v-skeleton-loader type="card"></v-skeleton-loader>
   </v-sheet>
 </template>
 
@@ -9,9 +8,6 @@
 import { Component, Vue } from 'vue-property-decorator'
 
 @Component({
-  // Vuetify components provide
-  // a theme variable that is
-  // used to determine dark
   inject: {
     theme: {
       default: { isDark: false },

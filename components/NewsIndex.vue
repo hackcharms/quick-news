@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-row v-if="isNewsLoading">
-      <v-col v-for="index in 2" :key="index" class="col-12 col-md-6">
+      <v-col v-for="index in 2" :key="index">
         <NewsCardSkeleton />
       </v-col>
     </v-row>
@@ -20,11 +20,11 @@
 </template>
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator'
-// import Vue from 'vue'
+
 import { mapGetters, mapMutations } from 'vuex'
 
 import { NewsInterface } from '~/interfaces'
-// import newDataFromFile from '~/static/news'
+
 import NewsCardSkeleton from '~/components/skeleton/NewsCardSkeleton.vue'
 
 @Component({
@@ -48,8 +48,6 @@ export default class NewsIndexComponent extends Vue {
   selectedCategory!: string
   selectedCountry!: string
   updateIsnewsLoading!: Function
-
-  //   paginatorCurrentPage!: number
 
   perPageData: number = 10
 

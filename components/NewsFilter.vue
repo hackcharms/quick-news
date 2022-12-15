@@ -36,7 +36,7 @@
 <script lang="ts">
 import {
   Component,
-  //  Prop
+  
 } from 'vue-property-decorator'
 import Vue from 'vue'
 import { mapGetters, mapMutations } from 'vuex'
@@ -51,7 +51,6 @@ import { countries } from '~/assets/coutries'
   },
 })
 export default class NewsFilter extends Vue {
-  // @Prop(Function) reloadNews!: Function
 
   title: string = ''
   countries = countries
@@ -77,7 +76,6 @@ export default class NewsFilter extends Vue {
   set selectedCategoryStore(value) {
     this.updateSelectedCategory(value)
     this.$emit('reload-news')
-    // this.reloadNews()
   }
 
   get selectedCountryStore() {
@@ -87,7 +85,6 @@ export default class NewsFilter extends Vue {
   set selectedCountryStore(value) {
     this.updateSelectedCountry(value)
     this.$emit('reload-news')
-    // this.reloadNews()
   }
 }
 </script>

@@ -7,7 +7,10 @@
       @error="imageErrorHandle"
     >
       <v-card-title class="bg-gradient">
-        <NuxtLink :to="`/view/?url=${news?.url}`" class="text-decoration-none">
+        <NuxtLink
+          :to="`/view/?url=${news?.url}`"
+          class="text-decoration-none text-custom-hover"
+        >
           #{{ index }} {{ news?.title }}
         </NuxtLink>
       </v-card-title>
@@ -34,10 +37,16 @@
           </time>
         </v-col>
         <v-col cols="12" md="6" left>
-          <v-chip small pill>
+          <v-btn
+            rel="author"
+            href="#"
+            class="text-none text-custom-hover"
+            rounded
+            small
+          >
             <v-icon left> mdi-account-outline </v-icon>
-            <a rel="author">{{ news?.author || 'Unknown' }}</a>
-          </v-chip>
+            {{ news?.author || 'Unknown' }}
+          </v-btn>
         </v-col>
       </v-row>
     </v-card-subtitle>
@@ -47,30 +56,33 @@
     </v-card-text>
 
     <v-card-actions>
-      <NuxtLink
+      <v-btn
         v-if="news?.source.id"
         :to="`/source/${news?.source.id}`"
-        class="text-decoration-none d-block"
+        class="text-none text-custom-hover"
+        target="active"
+        outlined
+        rounded
+        small
       >
-        <v-chip class="ma-2" outlined style="cursor: pointer">
-          <v-icon left> mdi-origin </v-icon>
-          {{ news?.source.name }}
-        </v-chip>
-      </NuxtLink>
+        <v-icon left> mdi-origin </v-icon>
+        {{ news?.source.name }}
+      </v-btn>
 
-      <NuxtLink
+      <v-btn
         v-if="selectedCountry"
-        :to="`/country/${selectedCountry}`"
-        class="text-decoration-none d-block"
+        :href="`/country/${selectedCountry}`"
+        class="text-none text-custom-hover"
+        target="_blank"
+        outlined
+        rounded
+        small
       >
-        <v-chip class="ma-2" outlined style="cursor: pointer">
-          <v-icon left> mdi-earth </v-icon>
-          <!-- {{ getCountryCompleteName(selectedCountry) }} -->
-          <address>
-            {{ getCountry('code')(selectedCountry)('country') }}
-          </address>
-        </v-chip>
-      </NuxtLink>
+        <v-icon left> mdi-earth </v-icon>
+        <address>
+          {{ getCountry('code')(selectedCountry)('country') }}
+        </address>
+      </v-btn>
     </v-card-actions>
   </v-card>
 </template>
@@ -107,7 +119,7 @@ export default class News extends Vue {
 </script>
 
 <style lang="scss" scoped>
-a {
+.text-custom-hover {
   transition: transform 0.5s ease;
   color: rgb(227, 213, 213);
   &:hover {
